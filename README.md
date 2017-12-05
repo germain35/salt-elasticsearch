@@ -1,1 +1,1 @@
-# salt-elasticsearch
+# salt-elasticsearch-formula
