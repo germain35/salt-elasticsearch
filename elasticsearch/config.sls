@@ -37,6 +37,14 @@ elasticsearch_config:
     - watch_in:
       - service: elasticsearch_service
 
+#elasticsearch_logging:
+#  file.managed:
+#  - name: {{ elasticsearch.logging_file }}
+#  - source: salt://elasticsearch/templates/log4j2.properties.jinja
+#  - template: jinja
+#  - require:
+#    - pkg: elasticsearch_packages
+
   {%- if elasticsearch.config.get('path.data', None) %}
 {{elasticsearch.config.get('path.data')}}:
   file.directory:
@@ -69,6 +77,28 @@ elasticsearch_jvm_opts:
     - group: {{ elasticsearch.group }}
     - makedirs: True
     - contents: {{ elasticsearch.jvm_opts }}
+    - require: 
+      - pkg: elasticsearch_packages
     - watch_in:
       - service: elasticsearch_service
 {% endif -%}
+
+{%- if grains.get('init') == 'systemd' %}
+elasticsearch_override_limit_memlock_file:
+  file.managed:
+  - name: {{ elasticsearch.systemd_override_config_file }}
+  - makedirs: True
+  - contents: |
+      [Service]
+      LimitMEMLOCK=infinity
+  - require:
+    - pkg: elasticsearch_packages
+  - watch_in:
+    - module: elasticsearch_restart_systemd
+
+elasticsearch_restart_systemd:
+  module.wait:
+  - name: service.systemctl_reload
+  - watch_in:
+    - service: elasticsearch_service
+{%- endif %}
