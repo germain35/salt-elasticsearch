@@ -10,15 +10,17 @@
 
 {% set elasticsearch = salt['pillar.get']( 'elasticsearch', default=defaults.elasticsearch, merge=True) %}
 
-{% set major_version = elasticsearch.version|int %}
+{% set version       = "%s"|format(elasticsearch.version) %}
+{% set major_version = version.split('.')[0]|int %}
 
 {% set os_map = salt['grains.filter_by']({
     'Debian': {
         'major_version': major_version,
-        'pkgs': ['elasticsearch'],
+        'pkg': 'elasticsearch',
+        'jdk_pkg': 'openjdk-8-jdk-headless',
         'service': 'elasticsearch',
         'systemd_override_config_file': '/etc/systemd/system/elasticsearch.service.d/override.conf',
-        'sysconfig_file': '/etc/default/elasticsearch',
+        'defaults_file': '/etc/default/elasticsearch',
         'config_file': '/etc/elasticsearch/elasticsearch.yml',
         'logging_file': '/etc/elasticsearch/log4j2.properties',
         'jvm_opts_file': '/etc/elasticsearch/jvm.options',

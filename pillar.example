@@ -1,5 +1,5 @@
 elasticsearch:
-  version: 5.4
+  version: 5.4.3
   manage_repo: True
   config:
     cluster.name: elastic
@@ -14,7 +14,11 @@ elasticsearch:
     gateway.recover_after_nodes: 3
     node.max_local_storage_nodes: 1
     action.destructive_requires_name: true
-  sysconfig:
+  defaults:
+    JAVA_HOME: /usr/lib/jvm/java-8-openjdk-amd64
     ES_STARTUP_SLEEP_TIME: 5
-    ES_HEAP_SIZE: 8g
     MAX_OPEN_FILES: 65535
+    MAX_LOCKED_MEMORY: unlimited
+  jvm_opts:
+    - '-Xms1g'
+    - '-Xmx1g'

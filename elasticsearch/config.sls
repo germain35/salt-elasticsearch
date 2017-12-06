@@ -5,21 +5,21 @@ include:
   - elasticsearch.install
   - elasticsearch.service
 
-elasticsearch_sysconfig:
+elasticsearch_defaults:
   file.managed:
-    - name: {{ elasticsearch.sysconfig_file }}
-    - source: salt://elasticsearch/templates/sysconfig.jinja
+    - name: {{ elasticsearch.defaults_file }}
+    - source: salt://elasticsearch/templates/defaults.jinja
     - template: jinja
     - user: {{ elasticsearch.user }}
     - group: {{ elasticsearch.group }}
     - mode: 0600
     - makedirs: True
     - require:
-      - pkg: elasticsearch_packages
+      - pkg: elasticsearch_package
     - watch_in:
       - service: elasticsearch_service
     - context:
-        sysconfig: {{ elasticsearch.get('sysconfig', '{}') }}
+        defaults: {{ elasticsearch.get('defaults', '{}') }}
 
 {%- if elasticsearch.config %}
 elasticsearch_config:
@@ -32,8 +32,8 @@ elasticsearch_config:
     - mode: 0644
     - makedirs: True
     - require:
-      - pkg: elasticsearch_packages
-      - file: elasticsearch_sysconfig
+      - pkg: elasticsearch_package
+      - file: elasticsearch_defaults
     - watch_in:
       - service: elasticsearch_service
 
@@ -43,7 +43,7 @@ elasticsearch_config:
 #  - source: salt://elasticsearch/templates/log4j2.properties.jinja
 #  - template: jinja
 #  - require:
-#    - pkg: elasticsearch_packages
+#    - pkg: elasticsearch_package
 
   {%- if elasticsearch.config.get('path.data', None) %}
 {{elasticsearch.config.get('path.data')}}:
@@ -78,7 +78,7 @@ elasticsearch_jvm_opts:
     - makedirs: True
     - contents: {{ elasticsearch.jvm_opts }}
     - require: 
-      - pkg: elasticsearch_packages
+      - pkg: elasticsearch_package
     - watch_in:
       - service: elasticsearch_service
 {% endif -%}
@@ -92,7 +92,7 @@ elasticsearch_override_limit_memlock_file:
       [Service]
       LimitMEMLOCK=infinity
   - require:
-    - pkg: elasticsearch_packages
+    - pkg: elasticsearch_package
   - watch_in:
     - module: elasticsearch_restart_systemd
 

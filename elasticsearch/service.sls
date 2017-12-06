@@ -9,4 +9,4 @@ elasticsearch_service:
     - name: {{ elasticsearch.service }}
     - enable: True
     - require:
-        - pkg: elasticsearch_packages
+        - pkg: elasticsearch_package
