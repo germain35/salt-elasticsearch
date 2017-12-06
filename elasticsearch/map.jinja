@@ -1,0 +1,35 @@
+# -*- coding: utf-8 -*-
+# vim: ft=jinja
+
+{%- set os         = salt['grains.get']('os') %}
+{%- set osrelease  = salt['grains.get']('osrelease') %}
+{%- set oscodename = salt['grains.get']('oscodename') %}
+
+{## start with defaults from defaults.yaml ##}
+{% import_yaml "elasticsearch/defaults.yaml" as defaults %}
+
+{% set elasticsearch = salt['pillar.get']( 'elasticsearch', default=defaults.elasticsearch, merge=True) %}
+
+{% set major_version = elasticsearch.version|int %}
+
+{% set os_map = salt['grains.filter_by']({
+    'Debian': {
+        'major_version': major_version,
+        'pkgs': ['elasticsearch'],
+        'service': 'elasticsearch',
+        'sysconfig_file': '/etc/default/elasticsearch',
+        'config_file': '/etc/elasticsearch/elasticsearch.yml',
+        'jvm_opts_file': '/etc/elasticsearch/jvm.options',
+        'user': 'elasticsearch',
+        'group': 'elasticsearch',
+        'repo': {
+            'humanname': 'elasticsearch',
+            'name': 'deb https://artifacts.elastic.co/packages/' ~ major_version ~ '.x/apt stable main',
+            'file': '/etc/apt/sources.list.d/elasticsearch.list',
+            'key_url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        }
+    },
+}, grain='os_family', merge=salt['pillar.get']('elasticsearch:lookup'), default='Debian') %}
+
+{% do elasticsearch.update(os_map) %}
+

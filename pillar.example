@@ -1,0 +1,20 @@
+elasticsearch:
+  version: 5.4
+  manage_repo: True
+  config:
+    cluster.name: elastic
+    node.name: node1
+    path.data: /var/lib/elasticsearch
+    path.logs: /var/logs/elasticsearch
+    bootstrap.mmemory_lock: true
+    network.host: 127.0.0.1
+    http.port: 9200
+    discovery.zen.ping.unicast.hosts: ["host1", "host2", "host3"]
+    discovery.zen.minimum_master_nodes: 3
+    gateway.recover_after_nodes: 3
+    node.max_local_storage_nodes: 1
+    action.destructive_requires_name: true
+  sysconfig:
+    ES_STARTUP_SLEEP_TIME: 5
+    ES_HEAP_SIZE: 8g
+    MAX_OPEN_FILES: 65535

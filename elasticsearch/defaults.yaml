@@ -1,0 +1,3 @@
+elasticsearch:
+  manage_repo: True
+  version: 5
