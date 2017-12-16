@@ -14,5 +14,7 @@ elasticsearch_package:
     - version: {{ elasticsearch.version }}
     {%- endif %}
     - require:
+      {%- if elasticsearch.manage_repo %}
       - sls: elasticsearch.repo
+      {%- endif %}
       - pkg: elasticsearch_jdk_package
