@@ -6,10 +6,12 @@ elasticsearch:
     node.name: node1
     path.data: /var/lib/elasticsearch
     path.logs: /var/logs/elasticsearch
-    bootstrap.mmemory_lock: true
-    network.host: 127.0.0.1
+    network.host: 0.0.0.0
     http.port: 9200
-    discovery.zen.ping.unicast.hosts: ["host1", "host2", "host3"]
+    discovery.zen.ping.unicast.hosts:
+      - host1
+      - host2
+      - host3
     discovery.zen.minimum_master_nodes: 3
     gateway.recover_after_nodes: 3
     node.max_local_storage_nodes: 1
@@ -20,5 +22,5 @@ elasticsearch:
     MAX_OPEN_FILES: 65535
     MAX_LOCKED_MEMORY: unlimited
   jvm_opts:
-    - '-Xms1g'
-    - '-Xmx1g'
+    - '-Xms2g'
+    - '-Xmx2g'
