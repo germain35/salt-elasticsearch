@@ -8,7 +8,6 @@ include:
 elasticsearch_index_{{index}}:
   elasticsearch.index_present:
     - name: {{ index }}
-    - index: {{ params.index }}
     {%- if params.definition is defined and params.definition is mapping %}
     - definition: {{ params.definition }}
     {%- endif %}
