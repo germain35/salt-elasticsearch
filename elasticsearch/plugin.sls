@@ -5,7 +5,7 @@ include:
   - elasticsearch.config
   - elasticsearch.service
 
-{%- for name, repo in elasticsearch.get('plugins', {}) %}
+{%- for name, repo in elasticsearch.get('plugins', {}).iteritems() %}
 elasticsearch_plugin_{{ name }}:
   cmd.run:
     - name: {{ elasticsearch.home_dir | path_join(elasticsearch.plugin_bin) }} install -b {{ repo }}
