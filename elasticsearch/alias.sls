@@ -4,7 +4,7 @@ include:
   - elasticsearch.service
   - elasticsearch.index
 
-{%- for alias, params in elasticsearch.get('alias').iteritems() %}
+{%- for alias, params in elasticsearch.get('alias', {}).iteritems() %}
   {%- if params.get('present', True) %}
 elasticsearch_alias_{{alias}}:
   elasticsearch.alias_present:

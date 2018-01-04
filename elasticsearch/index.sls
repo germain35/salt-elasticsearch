@@ -3,7 +3,7 @@
 include:
   - elasticsearch.service
 
-{%- for index, params in elasticsearch.get('index').iteritems() %}
+{%- for index, params in elasticsearch.get('index', {}).iteritems() %}
   {%- if params.get('present', True) %}
 elasticsearch_index_{{index}}:
   elasticsearch.index_present:
