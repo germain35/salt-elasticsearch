@@ -20,6 +20,8 @@
         'jdk_pkg': 'openjdk-8-jre-headless',
         'service': 'elasticsearch',
         'systemd_override_config_file': '/etc/systemd/system/elasticsearch.service.d/override.conf',
+        'home_dir': '/usr/share/elasticsearch',
+        'plugin_bin': 'bin/elasticsearch-plugin',
         'defaults_file': '/etc/default/elasticsearch',
         'config_file': '/etc/elasticsearch/elasticsearch.yml',
         'logging_file': '/etc/elasticsearch/log4j2.properties',

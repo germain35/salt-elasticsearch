@@ -5,5 +5,6 @@ include:
   - elasticsearch.install
   - elasticsearch.config
   - elasticsearch.service
+  - elasticsearch.plugin
   - elasticsearch.index
   - elasticsearch.alias
