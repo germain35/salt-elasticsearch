@@ -5,7 +5,7 @@ include:
   - elasticsearch.index
 
 {%- for alias, params in elasticsearch.get('alias', {}).iteritems() %}
-  {%- if params.get('present', True) %}
+  {%- if params.get('enabled', True) %}
 elasticsearch_alias_{{alias}}:
   elasticsearch.alias_present:
     - name: {{ alias }}

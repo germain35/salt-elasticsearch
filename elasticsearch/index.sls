@@ -4,7 +4,7 @@ include:
   - elasticsearch.service
 
 {%- for index, params in elasticsearch.get('index', {}).iteritems() %}
-  {%- if params.get('present', True) %}
+  {%- if params.get('enabled', True) %}
 elasticsearch_index_{{index}}:
   elasticsearch.index_present:
     - name: {{ index }}
