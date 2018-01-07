@@ -28,7 +28,7 @@ elasticsearch_curator_action_config:
 
 elasticsearch_curator_cron:
   cron.present:
-    - name: "curator --config {{ elasticsearch.curator.conf_file }} {{ elasticsearch.curator.action_conf_file }} >/dev/null"
+    - name: "{{ elasticsearch.curator_bin }} --config {{ elasticsearch.curator_conf_file }} {{ elasticsearch.curator_action_conf_file }} >/dev/null"
     - user: {{ elasticsearch.user }}
     - minute: {{ elasticsearch.curator.cron.minute }}
     - hour: {{ elasticsearch.curator.cron.hour }}
