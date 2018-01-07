@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # vim: ft=jinja
 
-{%- set os         = salt['grains.get']('os') %}
-{%- set osrelease  = salt['grains.get']('osrelease') %}
-{%- set oscodename = salt['grains.get']('oscodename') %}
+{%- set os              = salt['grains.get']('os') %}
+{%- set osrelease       = salt['grains.get']('osrelease') %}
+{%- set osmajorrelease  = salt['grains.get']('osmajorrelease') %}
+{%- set oscodename      = salt['grains.get']('oscodename') %}
 
 {## start with default_settings from defaults.yaml ##}
 {% import_yaml "elasticsearch/defaults.yaml" as default_settings %}
@@ -38,7 +39,7 @@
         },
         'curator_repo': {
             'humanname': 'elasticsearch-curator',
-            'name': 'deb [arch=amd64] https://packages.elastic.co/curator/' ~ major_version ~ '/debian' ~ osrelease ~ ' stable main',
+            'name': 'deb [arch=amd64] https://packages.elastic.co/curator/' ~ major_version ~ '/debian' ~ osmajorrelease ~ ' stable main',
             'file': '/etc/apt/sources.list.d/elasticsearch.list',
             'key_url': 'https://packages.elastic.co/GPG-KEY-elasticsearch',
         }
