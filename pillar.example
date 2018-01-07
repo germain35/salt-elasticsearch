@@ -25,6 +25,7 @@ elasticsearch:
     - '-Xms2g'
     - '-Xmx2g'
   curator:
+    enabled: True
     cron:
       minute: random
       hour: 0
@@ -33,42 +34,42 @@ elasticsearch:
         logfile: /var/log/elasticsearch/curator.log
     actions:
       - action: delete_indices
-          description: >-
-            Delete indices older than 15 days (based on index name).
-            Ignore the error if the filter does not result in an actionable
-            list of indices (ignore_empty_list) and exit cleanly.
-          options:
-            ignore_empty_list: True
-            continue_if_exception: False
-            disable_action: False
-          filters:
-            - filtertype: pattern
-              kind: regex
-              value: '.*\-\d\d\d\d\.\d\d\.\d\d$'
-            - filtertype: age
-              source: name
-              direction: older
-              timestring: '%Y.%m.%d'
-              unit: days
-              unit_count: 15
+        description: >-
+          Delete indices older than 15 days (based on index name).
+          Ignore the error if the filter does not result in an actionable
+          list of indices (ignore_empty_list) and exit cleanly.
+        options:
+          ignore_empty_list: True
+          continue_if_exception: False
+          disable_action: False
+        filters:
+          - filtertype: pattern
+            kind: regex
+            value: '.*\-\d\d\d\d\.\d\d\.\d\d$'
+          - filtertype: age
+            source: name
+            direction: older
+            timestring: '%Y.%m.%d'
+            unit: days
+            unit_count: 15
       - action: replicas
-          description: >-
-            Reduce the replica count to 0 for indices older than 30 days
-            (based on index creation_date)
-          options:
-            count: 0
-            wait_for_completion: False
-            continue_if_exception: False
-            disable_action: False
-          filters:
-            - filtertype: pattern
-              kind: regex
-              value: '.*\-\d\d\d\d\.\d\d\.\d\d$'
-            - filtertype: age
-              source: creation_date
-              direction: older
-              unit: days
-              unit_count: 30
+        description: >-
+          Reduce the replica count to 0 for indices older than 30 days
+          (based on index creation_date)
+        options:
+          count: 0
+          wait_for_completion: False
+          continue_if_exception: False
+          disable_action: False
+        filters:
+          - filtertype: pattern
+            kind: regex
+            value: '.*\-\d\d\d\d\.\d\d\.\d\d$'
+          - filtertype: age
+            source: creation_date
+            direction: older
+            unit: days
+            unit_count: 30
         - action: forcemerge
           description: >-
             forceMerge indices older than 2 days (based on index
