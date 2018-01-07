@@ -5,10 +5,10 @@
 {%- set osrelease  = salt['grains.get']('osrelease') %}
 {%- set oscodename = salt['grains.get']('oscodename') %}
 
-{## start with defaults from defaults.yaml ##}
-{% import_yaml "elasticsearch/defaults.yaml" as defaults %}
+{## start with default_settings from defaults.yaml ##}
+{% import_yaml "elasticsearch/defaults.yaml" as default_settings %}
 
-{% set version       = "%s"|format(salt['pillar.get']( 'elasticsearch:version', default=defaults.elasticsearch.version)) %}
+{% set version       = "%s"|format(salt['pillar.get']( 'elasticsearch:version', default=default_settings.elasticsearch.version)) %}
 {% set major_version = version.split('.')[0]|int %}
 
 {% set os_family_map = salt['grains.filter_by']({
@@ -46,6 +46,13 @@
     },
 }, grain='os_family', merge=salt['pillar.get']('elasticsearch:lookup'), default='Debian') %}
 
-{% do elasticsearch.update(os_family_map) %}
 
-{% set elasticsearch = salt['pillar.get']( 'elasticsearch', default=defaults.elasticsearch, merge=True) %}
+{## Merge the flavor_map to the default settings ##}
+{% do default_settings.elasticsearch.update(os_family_map) %}
+
+{## Merge in php:lookup pillar ##}
+{% set elasticsearch = salt['pillar.get'](
+    'elasticsearch',
+    default=default_settings.elasticsearch,
+    merge=True
+) %}
