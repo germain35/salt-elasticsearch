@@ -15,6 +15,7 @@
     'Debian': {
         'major_version': major_version,
         'pkg': 'elasticsearch',
+        'curator_pkg': 'elasticsearch-curator',
         'jdk_pkg': 'openjdk-8-jre-headless',
         'service': 'elasticsearch',
         'systemd_override_config_file': '/etc/systemd/system/elasticsearch.service.d/override.conf',
@@ -24,6 +25,8 @@
         'conf_file': '/etc/elasticsearch/elasticsearch.yml',
         'logging_file': '/etc/elasticsearch/log4j2.properties',
         'jvm_opts_file': '/etc/elasticsearch/jvm.options',
+        'curator_conf_file': '/etc/elasticsearch/curator.yml',
+        'curator_action_conf_file': '/etc/elasticsearch/curator_actions.yml',
         'user': 'elasticsearch',
         'group': 'elasticsearch',
         'repo': {
@@ -32,16 +35,11 @@
             'file': '/etc/apt/sources.list.d/elasticsearch.list',
             'key_url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
         },
-        'curator': {
-            'pkg': 'elasticsearch-curator',
-            'conf_file': '/etc/elasticsearch/curator.yml',
-            'action_conf_file': '/etc/elasticsearch/curator_actions.yml',
-            'repo': {
-                'humanname': 'elasticsearch-curator',
-                'name': 'deb [arch=amd64] https://packages.elastic.co/curator/' ~ major_version ~ '/debian' ~ osrelease ~ ' stable main',
-                'file': '/etc/apt/sources.list.d/elasticsearch.list',
-                'key_url': 'https://packages.elastic.co/GPG-KEY-elasticsearch',
-            }
+        'curator_repo': {
+            'humanname': 'elasticsearch-curator',
+            'name': 'deb [arch=amd64] https://packages.elastic.co/curator/' ~ major_version ~ '/debian' ~ osrelease ~ ' stable main',
+            'file': '/etc/apt/sources.list.d/elasticsearch.list',
+            'key_url': 'https://packages.elastic.co/GPG-KEY-elasticsearch',
         }
     },
 }, grain='os_family', merge=salt['pillar.get']('elasticsearch:lookup'), default='Debian') %}

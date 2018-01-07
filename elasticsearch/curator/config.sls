@@ -6,7 +6,7 @@ include:
 
 elasticsearch_curator_config:
   file.managed:
-  - name: {{ elasticsearch.curator.conf_file }}
+  - name: {{ elasticsearch.curator_conf_file }}
   - source: salt://elasticsearch/templates/curator.yml.jinja
   - user: {{ elasticsearch.user }}
   - group: {{ elasticsearch.group }}
@@ -17,7 +17,7 @@ elasticsearch_curator_config:
 
 elasticsearch_curator_action_config:
   file.managed:
-  - name: {{ elasticsearch.curator.action_conf_file }}
+  - name: {{ elasticsearch.curator_action_conf_file }}
   - source: salt://elasticsearch/templates/curator_actions.yml.jinja
   - user: {{ elasticsearch.user }}
   - group: {{ elasticsearch.group }}
