@@ -13,7 +13,7 @@
 {% set version       = "%s"|format(elasticsearch.version) %}
 {% set major_version = version.split('.')[0]|int %}
 
-{% set os_map = salt['grains.filter_by']({
+{% set os_family_map = salt['grains.filter_by']({
     'Debian': {
         'major_version': major_version,
         'pkg': 'elasticsearch',
@@ -23,7 +23,7 @@
         'home_dir': '/usr/share/elasticsearch',
         'plugin_bin': 'bin/elasticsearch-plugin',
         'defaults_file': '/etc/default/elasticsearch',
-        'config_file': '/etc/elasticsearch/elasticsearch.yml',
+        'conf_file': '/etc/elasticsearch/elasticsearch.yml',
         'logging_file': '/etc/elasticsearch/log4j2.properties',
         'jvm_opts_file': '/etc/elasticsearch/jvm.options',
         'user': 'elasticsearch',
@@ -33,9 +33,20 @@
             'name': 'deb https://artifacts.elastic.co/packages/' ~ major_version ~ '.x/apt stable main',
             'file': '/etc/apt/sources.list.d/elasticsearch.list',
             'key_url': 'https://artifacts.elastic.co/GPG-KEY-elasticsearch',
+        },
+        'curator': {
+            'pkg': 'elasticsearch-curator',
+            'conf_file': '/etc/elasticsearch/curator.yml',
+            'action_conf_file': '/etc/elasticsearch/curator_actions.yml',
+            'repo': {
+                'humanname': 'elasticsearch-curator',
+                'name': 'deb [arch=amd64] https://packages.elastic.co/curator/' ~ major_version ~ '/debian' ~ osrelease ~ ' stable main',
+                'file': '/etc/apt/sources.list.d/elasticsearch.list',
+                'key_url': 'https://packages.elastic.co/GPG-KEY-elasticsearch',
+            }
         }
     },
 }, grain='os_family', merge=salt['pillar.get']('elasticsearch:lookup'), default='Debian') %}
 
-{% do elasticsearch.update(os_map) %}
+{% do elasticsearch.update(os_family_map) %}
 

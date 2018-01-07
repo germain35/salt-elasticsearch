@@ -24,7 +24,7 @@ elasticsearch_defaults:
 {%- if elasticsearch.config %}
 elasticsearch_config:
   file.serialize:
-    - name: {{ elasticsearch.config_file }}
+    - name: {{ elasticsearch.conf_file }}
     - dataset: {{ elasticsearch.config }}
     - formatter: yaml
     - user: root
@@ -86,7 +86,7 @@ elasticsearch_jvm_opts:
 {%- if grains.get('init') == 'systemd' %}
 elasticsearch_override_limit_memlock_file:
   file.managed:
-  - name: {{ elasticsearch.systemd_override_config_file }}
+  - name: {{ elasticsearch.systemd_override_conf_file }}
   - makedirs: True
   - contents: |
       [Service]

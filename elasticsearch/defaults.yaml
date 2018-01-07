@@ -1,3 +1,18 @@
 elasticsearch:
   manage_repo: True
   version: 5
+  curator:
+    enabled: False
+    cron:
+      hour: 1
+      minute: random
+    config:
+      client:
+        hosts:
+          - 127.0.0.1
+        port: 9200
+        timeout: 120
+        master_only: false
+      logging:
+        loglevel: INFO
+        logformat: default

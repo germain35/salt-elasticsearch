@@ -8,3 +8,6 @@ include:
   - elasticsearch.plugin
   - elasticsearch.index
   - elasticsearch.alias
+  {%- if elasticsearch.curator.enabled %}
+  - elasticsearch.curator
+  {%- endif %}
