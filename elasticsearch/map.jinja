@@ -12,9 +12,13 @@
 {% set version       = "%s"|format(salt['pillar.get']( 'elasticsearch:version', default=default_settings.elasticsearch.version)) %}
 {% set major_version = version.split('.')[0]|int %}
 
+{% set curator_version       = "%s"|format(salt['pillar.get']( 'elasticsearch:curator:version', default=default_settings.elasticsearch.curator.version)) %}
+{% set curator_major_version = version.split('.')[0]|int %}
+
 {% set os_family_map = salt['grains.filter_by']({
     'Debian': {
         'major_version': major_version,
+        'curator_major_version': curator_major_version,
         'pkg': 'elasticsearch',
         'curator_pkg': 'elasticsearch-curator',
         'curator_bin': 'curator',

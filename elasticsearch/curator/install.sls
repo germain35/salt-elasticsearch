@@ -6,8 +6,8 @@ include:
 elasticsearch_curator_package:
   pkg.installed:
     - name: {{ elasticsearch.curator_pkg }}
-    {%- if elasticsearch.major_version != elasticsearch.version %}
-    - version: {{ elasticsearch.version }}
+    {%- if elasticsearch.curator_major_version != elasticsearch.curator.version %}
+    - version: {{ elasticsearch.curator.version }}
     {%- endif %}
     - require:
       {%- if elasticsearch.manage_repo %}

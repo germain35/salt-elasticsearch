@@ -2,6 +2,7 @@ elasticsearch:
   manage_repo: True
   version: 5
   curator:
+    version: 5
     enabled: False
     cron:
       hour: 1
