@@ -94,11 +94,11 @@ elasticsearch_override_limit_memlock_file:
   - require:
     - pkg: elasticsearch_package
   - watch_in:
-    - module: elasticsearch_restart_systemd
+    - module: elasticsearch_systemctl_reload
 
-elasticsearch_restart_systemd:
+elasticsearch_systemctl_reload:
   module.wait:
-  - name: service.systemctl_reload
-  - watch_in:
-    - service: elasticsearch_service
+    - service.systemctl_reload: []
+    - watch_in:
+      - service: elasticsearch_service
 {%- endif %}
