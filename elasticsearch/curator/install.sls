@@ -9,7 +9,7 @@ elasticsearch_curator_package:
     {%- if elasticsearch.curator_major_version != elasticsearch.curator.version %}
     - version: {{ elasticsearch.curator.version }}
     {%- endif %}
+    {%- if elasticsearch.manage_repo %}
     - require:
-      {%- if elasticsearch.manage_repo %}
       - sls: elasticsearch.curator.repo
-      {%- endif %}
+    {%- endif %}
