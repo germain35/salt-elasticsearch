@@ -3,5 +3,5 @@
 actions:
   {%- for action in elasticsearch.curator.actions %}
   {{ loop.index }}:
-    {{ action|yaml }}
+    {{ action|yaml(False) }}
   {%- endfor %}
