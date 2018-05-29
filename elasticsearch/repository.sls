@@ -20,7 +20,7 @@ elasticsearch_repository_{{repository}}_dir:
 
 elasticsearch_repository_{{repository}}:
   module.run:
-    - elasticsearch.repository_create
+    - elasticsearch.repository_create:
       - name: {{ repository }}
       - body: {{ params|json }}
 
