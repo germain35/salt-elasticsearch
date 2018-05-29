@@ -1,6 +1,10 @@
 elasticsearch:
   manage_repo: True
   version: 5
+  python:
+    version: False
+    pip:
+      no_index: False
   curator:
     version: 5
     enabled: False
