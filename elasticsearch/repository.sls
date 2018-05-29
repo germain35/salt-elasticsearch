@@ -4,16 +4,24 @@ include:
   - elasticsearch.service
 
 {%- for repository, params in elasticsearch.get('repository', {}).iteritems() %}
-  {%- if params.get('enabled', True) %}
+
+elasticsearch_repository_{{repository}}_dir:
+  file.directory:
+    - name: {{ params.settings.location }}
+    - user: {{ elasticsearch.user }}
+    - group: {{ elasticsearch.group }}
+    - makedirs: True
+    - dir_mode: 755
+    - file_mode: 644
+    - recurse:
+      - user
+      - group
+      - mode
+
 elasticsearch_repository_{{repository}}:
   module.run:
     - elasticsearch.repository_create
       - name: {{ repository }}
       - body: {{ params|json }}
-  {%- else %}
-elasticsearch_repository_{{repository}}_absent:
-  module.run:
-    - elasticsearch.repository_delete
-      - name: {{ repository }}
-  {%- endif %}
+
 {%- endfor %}
