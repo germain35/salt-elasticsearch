@@ -5,6 +5,7 @@ include:
 
 {%- for repository, params in elasticsearch.get('repository', {}).iteritems() %}
 
+  {%- if params.get('type', False) == 'fs' %}
 elasticsearch_repository_{{repository}}_dir:
   file.directory:
     - name: {{ params.settings.location }}
@@ -17,6 +18,9 @@ elasticsearch_repository_{{repository}}_dir:
       - user
       - group
       - mode
+    - require_in:
+      - module: elasticsearch_repository_{{repository}}
+  {%- endif %}
 
 elasticsearch_repository_{{repository}}:
   module.run:
