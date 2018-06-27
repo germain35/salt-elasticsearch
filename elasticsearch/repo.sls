@@ -17,7 +17,7 @@ elasticsearch_apts_pkg:
   {%- if 'repo' in elasticsearch and elasticsearch.repo is mapping %}
 elasticsearch_repo:
   pkgrepo.managed:
-    {%- for k, v in elasticsearch.repo.iteritems() %}
+    {%- for k, v in elasticsearch.repo.items() %}
     - {{k}}: {{v}}
     {%- endfor %}
   {%- endif %}

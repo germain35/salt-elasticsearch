@@ -3,7 +3,7 @@
 include:
   - elasticsearch.service
 
-{%- for repository, params in elasticsearch.get('repository', {}).iteritems() %}
+{%- for repository, params in elasticsearch.get('repository', {}).items() %}
 
   {%- if params.get('type', False) == 'fs' %}
 elasticsearch_repository_{{repository}}_dir:

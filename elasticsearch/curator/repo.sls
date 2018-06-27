@@ -17,7 +17,7 @@ elasticsearch_curator_apts_pkg:
   {%- if 'curator_repo' in elasticsearch and elasticsearch.curator_repo is mapping %}
 elasticsearch_curator_repo:
   pkgrepo.managed:
-    {%- for k, v in elasticsearch.curator_repo.iteritems() %}
+    {%- for k, v in elasticsearch.curator_repo.items() %}
     - {{k}}: {{v}}
     {%- endfor %}
   {%- endif %}
